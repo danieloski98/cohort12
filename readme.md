@@ -1,0 +1,426 @@
+# HTML Accessibility Guide for Students
+
+## Introduction to Web Accessibility
+
+Web accessibility ensures that websites and web applications are usable by everyone, including people with disabilities. This guide covers fundamental HTML accessibility practices with practical examples.
+
+## Why Accessibility Matters
+
+- **Legal requirements**: Many countries have laws requiring accessible websites
+- **Larger audience**: Improves usability for all users, including those with disabilities
+- **Better SEO**: Many accessibility practices also improve search engine optimization
+- **Ethical responsibility**: Creating inclusive digital experiences
+
+## Key HTML Accessibility Techniques
+
+### 1. Semantic HTML
+
+Use HTML elements that clearly describe their purpose rather than styling generic elements.
+
+#### Example: Non-semantic vs. Semantic HTML
+
+❌ **Poor Practice**:
+```html
+<div class="header">Website Title</div>
+<div class="navigation">
+  <div class="nav-item">Home</div>
+  <div class="nav-item">About</div>
+</div>
+<div class="main-content">
+  <div class="section-title">Welcome</div>
+  <div class="paragraph">This is the main content.</div>
+</div>
+<div class="footer">Copyright 2025</div>
+```
+
+✅ **Good Practice**:
+```html
+<header>Website Title</header>
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+</nav>
+<main>
+  <h1>Welcome</h1>
+  <p>This is the main content.</p>
+</main>
+<footer>Copyright 2025</footer>
+```
+
+### 2. Alternative Text for Images
+
+Always provide descriptive alt text for images so screen readers can explain them to users.
+
+#### Example: Alt Text
+
+❌ **Poor Practice**:
+```html
+<img src="chart.jpg">
+```
+
+✅ **Good Practice**:
+```html
+<img src="chart.jpg" alt="Bar chart showing sales growth from 2020-2025">
+```
+
+For decorative images that don't convey information:
+```html
+<img src="decorative-line.jpg" alt="">
+```
+
+### 3. Proper Heading Structure
+
+Use headings (`<h1>` through `<h6>`) in a logical, hierarchical order to structure your content.
+
+#### Example: Heading Structure
+
+❌ **Poor Practice**:
+```html
+<h3>Main Page Title</h3>
+<h1>First Section</h1>
+<h2>Subsection</h2>
+```
+
+✅ **Good Practice**:
+```html
+<h1>Main Page Title</h1>
+<h2>First Section</h2>
+<h3>Subsection</h3>
+```
+
+### 4. Form Accessibility
+
+Forms need proper labels, instructions, and error messages to be accessible.
+
+#### Example: Accessible Form
+
+❌ **Poor Practice**:
+```html
+<div>
+  Name: <input type="text">
+  <span class="error">Required</span>
+</div>
+```
+
+✅ **Good Practice**:
+```html
+<div>
+  <label for="name">Name:</label>
+  <input type="text" id="name" aria-required="true">
+  <span id="name-error" role="alert">This field is required</span>
+</div>
+```
+
+### 5. ARIA Attributes
+
+Accessible Rich Internet Applications (ARIA) attributes enhance accessibility when HTML alone isn't sufficient.
+
+#### Example: ARIA in Navigation
+
+```html
+<nav aria-label="Main Navigation">
+  <ul role="menubar">
+    <li role="none">
+      <a href="/" role="menuitem">Home</a>
+    </li>
+    <li role="none">
+      <a href="/products" role="menuitem" aria-haspopup="true" aria-expanded="false">Products</a>
+      <ul role="menu">
+        <li role="none"><a href="/products/new" role="menuitem">New Arrivals</a></li>
+        <li role="none"><a href="/products/sale" role="menuitem">Sale Items</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+```
+
+### 6. Keyboard Navigation
+
+Ensure all interactive elements are keyboard accessible.
+
+#### Example: Skip Navigation Link
+
+```html
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <header><!-- Navigation, etc. --></header>
+  
+  <main id="main-content">
+    <h1>Page Title</h1>
+    <!-- Main content -->
+  </main>
+</body>
+```
+
+### 7. Tables
+
+Use proper table markup with headers and captions.
+
+#### Example: Accessible Table
+
+❌ **Poor Practice**:
+```html
+<table>
+  <tr>
+    <td>Name</td>
+    <td>Age</td>
+    <td>Role</td>
+  </tr>
+  <tr>
+    <td>Alex</td>
+    <td>25</td>
+    <td>Developer</td>
+  </tr>
+</table>
+```
+
+✅ **Good Practice**:
+```html
+<table>
+  <caption>Team Members</caption>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alex</td>
+      <td>25</td>
+      <td>Developer</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### 8. Color and Contrast
+
+Ensure sufficient color contrast and don't rely solely on color to convey information.
+
+#### Example: Form Validation
+
+❌ **Poor Practice**:
+```html
+<style>
+  .error { color: red; }
+</style>
+<div>
+  <label for="email">Email:</label>
+  <input type="email" id="email">
+  <span class="error">Invalid email format</span>
+</div>
+```
+
+✅ **Good Practice**:
+```html
+<style>
+  .error {
+    color: #D50000; /* High contrast red */
+    font-weight: bold;
+  }
+  .error::before {
+    content: "⚠️ "; /* Icon in addition to color */
+  }
+</style>
+<div>
+  <label for="email">Email:</label>
+  <input type="email" id="email" aria-describedby="email-error">
+  <span id="email-error" class="error" role="alert">Invalid email format</span>
+</div>
+```
+
+## Testing Tools
+
+- **WAVE Web Accessibility Tool**: https://wave.webaim.org/
+- **Axe DevTools**: Chrome extension for accessibility testing
+- **Lighthouse**: Built into Chrome DevTools
+- **Screen readers**: NVDA (Windows), VoiceOver (Mac), JAWS (Windows)
+
+## Accessibility Checklist for Students
+
+1. ☐ Used semantic HTML
+2. ☐ Added alt text to all images
+3. ☐ Created logical heading structure
+4. ☐ Made forms accessible with labels and instructions
+5. ☐ Ensured keyboard navigation works
+6. ☐ Used proper table markup
+7. ☐ Verified sufficient color contrast
+8. ☐ Tested with accessibility tools
+
+## Resources for Learning More
+
+- WebAIM: https://webaim.org/
+- MDN Web Docs Accessibility Guide: https://developer.mozilla.org/en-US/docs/Web/Accessibility
+- W3C Web Accessibility Initiative: https://www.w3.org/WAI/
+
+
+# HTML Typography Guide for Students
+
+## Introduction to Web Typography
+
+Typography is the art and technique of arranging type to make written language legible, readable, and appealing. On the web, good typography enhances user experience, increases readability, and reinforces brand identity.
+
+## Why Typography Matters in Web Design
+
+- **Readability**: Makes content easier to consume
+- **Hierarchy**: Guides users through content in order of importance
+- **Branding**: Conveys personality and tone
+- **Accessibility**: Ensures content is readable by everyone
+- **User Experience**: Keeps users engaged and reduces eye strain
+
+## Key HTML & CSS Typography Techniques
+
+### 1. Text Elements in HTML
+
+HTML provides several elements specifically designed for text content.
+
+#### Example: Basic Text Elements
+
+```html
+<h1>This is a main heading</h1>
+<h2>This is a subheading</h2>
+<p>This is a paragraph of text with <strong>bold text</strong> and <em>italic text</em>.</p>
+<blockquote>This is a blockquote for featured text or citations.</blockquote>
+<pre>This text preserves whitespace and formatting.</pre>
+<code>This is for displaying code snippets.</code>
+```
+
+### 2. Font Properties in CSS
+
+CSS offers extensive control over how text appears on your webpage.
+
+#### Example: Font Properties
+
+```css
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #333333;
+}
+
+h1 {
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #222222;
+}
+```
+
+### 3. Web Fonts
+
+Web fonts allow designers to use fonts beyond the standard system fonts.
+
+#### Example: Google Fonts Implementation
+
+```html
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+```
+
+#### Example: @font-face Rule
+
+```css
+@font-face {
+  font-family: 'CustomFont';
+  src: url('fonts/customfont.woff2') format('woff2'),
+       url('fonts/customfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'CustomFont', sans-serif;
+}
+```
+
+### 4. Text Alignment and Spacing
+
+CSS provides properties to control text alignment, spacing, and indentation.
+
+#### Example: Text Alignment & Spacing
+
+```css
+.text-sample {
+  text-align: left; /* Could be center, right, or justify */
+  text-indent: 1em; /* Indents the first line of text */
+  letter-spacing: 0.5px; /* Space between characters */
+  word-spacing: 2px; /* Space between words */
+  line-height: 1.6; /* Space between lines, unitless value recommended */
+}
+
+.paragraph {
+  margin-bottom: 1.5rem; /* Space after paragraphs */
+}
+```
+
+### 5. Responsive Typography
+
+Typography that adjusts based on screen size improves readability across devices.
+
+#### Example: Responsive Font Sizes
+
+```css
+/* Base font size */
+html {
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 2rem; /* 32px on default size */
+}
+
+/* Larger fonts on bigger screens */
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Using viewport units for fluid typography */
+h2 {
+  font-size: calc(1.5rem + 1vw); /* Scales with viewport width */
+}
+```
+
+### 6. Typographic Hierarchy
+
+Creating a clear hierarchy helps users scan and understand content.
+
+#### Example: Visual Hierarchy
+
+```html
+<article>
+  <h1 class="article-title">Main Article Title</h1>
+  <p class="article-meta">Posted on May 15, 2025 by Author Name</p>
+  
+  <h2 class="section-heading">First Major Section</h2>
+  <p>Introduction paragraph to the section...</p>
+  
+  <h3 class="subsection-heading">Subsection Title</h3>
+  <p>Details about this specific topic...</p>
+</article>
+```
+
+```css
+.article-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+.article-meta {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom:
