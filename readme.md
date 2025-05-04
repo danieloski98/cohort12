@@ -2,24 +2,30 @@
 
 ## Introduction to Web Accessibility
 
-Web accessibility ensures that websites and web applications are usable by everyone, including people with disabilities. This guide covers fundamental HTML accessibility practices with practical examples.
+Web accessibility ensures that websites and web applications are usable by
+everyone, including people with disabilities. This guide covers fundamental HTML
+accessibility practices with practical examples.
 
 ## Why Accessibility Matters
 
 - **Legal requirements**: Many countries have laws requiring accessible websites
-- **Larger audience**: Improves usability for all users, including those with disabilities
-- **Better SEO**: Many accessibility practices also improve search engine optimization
+- **Larger audience**: Improves usability for all users, including those with
+  disabilities
+- **Better SEO**: Many accessibility practices also improve search engine
+  optimization
 - **Ethical responsibility**: Creating inclusive digital experiences
 
 ## Key HTML Accessibility Techniques
 
 ### 1. Semantic HTML
 
-Use HTML elements that clearly describe their purpose rather than styling generic elements.
+Use HTML elements that clearly describe their purpose rather than styling
+generic elements.
 
 #### Example: Non-semantic vs. Semantic HTML
 
 ❌ **Poor Practice**:
+
 ```html
 <div class="header">Website Title</div>
 <div class="navigation">
@@ -34,6 +40,7 @@ Use HTML elements that clearly describe their purpose rather than styling generi
 ```
 
 ✅ **Good Practice**:
+
 ```html
 <header>Website Title</header>
 <nav>
@@ -51,32 +58,38 @@ Use HTML elements that clearly describe their purpose rather than styling generi
 
 ### 2. Alternative Text for Images
 
-Always provide descriptive alt text for images so screen readers can explain them to users.
+Always provide descriptive alt text for images so screen readers can explain
+them to users.
 
 #### Example: Alt Text
 
 ❌ **Poor Practice**:
+
 ```html
-<img src="chart.jpg">
+<img src="chart.jpg" />
 ```
 
 ✅ **Good Practice**:
+
 ```html
-<img src="chart.jpg" alt="Bar chart showing sales growth from 2020-2025">
+<img src="chart.jpg" alt="Bar chart showing sales growth from 2020-2025" />
 ```
 
 For decorative images that don't convey information:
+
 ```html
-<img src="decorative-line.jpg" alt="">
+<img src="decorative-line.jpg" alt="" />
 ```
 
 ### 3. Proper Heading Structure
 
-Use headings (`<h1>` through `<h6>`) in a logical, hierarchical order to structure your content.
+Use headings (`<h1>` through `<h6>`) in a logical, hierarchical order to
+structure your content.
 
 #### Example: Heading Structure
 
 ❌ **Poor Practice**:
+
 ```html
 <h3>Main Page Title</h3>
 <h1>First Section</h1>
@@ -84,6 +97,7 @@ Use headings (`<h1>` through `<h6>`) in a logical, hierarchical order to structu
 ```
 
 ✅ **Good Practice**:
+
 ```html
 <h1>Main Page Title</h1>
 <h2>First Section</h2>
@@ -97,25 +111,28 @@ Forms need proper labels, instructions, and error messages to be accessible.
 #### Example: Accessible Form
 
 ❌ **Poor Practice**:
+
 ```html
 <div>
-  Name: <input type="text">
+  Name: <input type="text" />
   <span class="error">Required</span>
 </div>
 ```
 
 ✅ **Good Practice**:
+
 ```html
 <div>
   <label for="name">Name:</label>
-  <input type="text" id="name" aria-required="true">
+  <input type="text" id="name" aria-required="true" />
   <span id="name-error" role="alert">This field is required</span>
 </div>
 ```
 
 ### 5. ARIA Attributes
 
-Accessible Rich Internet Applications (ARIA) attributes enhance accessibility when HTML alone isn't sufficient.
+Accessible Rich Internet Applications (ARIA) attributes enhance accessibility
+when HTML alone isn't sufficient.
 
 #### Example: ARIA in Navigation
 
@@ -126,10 +143,19 @@ Accessible Rich Internet Applications (ARIA) attributes enhance accessibility wh
       <a href="/" role="menuitem">Home</a>
     </li>
     <li role="none">
-      <a href="/products" role="menuitem" aria-haspopup="true" aria-expanded="false">Products</a>
+      <a
+        href="/products"
+        role="menuitem"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >Products</a>
       <ul role="menu">
-        <li role="none"><a href="/products/new" role="menuitem">New Arrivals</a></li>
-        <li role="none"><a href="/products/sale" role="menuitem">Sale Items</a></li>
+        <li role="none">
+          <a href="/products/new" role="menuitem">New Arrivals</a>
+        </li>
+        <li role="none">
+          <a href="/products/sale" role="menuitem">Sale Items</a>
+        </li>
       </ul>
     </li>
   </ul>
@@ -145,9 +171,9 @@ Ensure all interactive elements are keyboard accessible.
 ```html
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
-  
+
   <header><!-- Navigation, etc. --></header>
-  
+
   <main id="main-content">
     <h1>Page Title</h1>
     <!-- Main content -->
@@ -162,6 +188,7 @@ Use proper table markup with headers and captions.
 #### Example: Accessible Table
 
 ❌ **Poor Practice**:
+
 ```html
 <table>
   <tr>
@@ -178,6 +205,7 @@ Use proper table markup with headers and captions.
 ```
 
 ✅ **Good Practice**:
+
 ```html
 <table>
   <caption>Team Members</caption>
@@ -200,27 +228,32 @@ Use proper table markup with headers and captions.
 
 ### 8. Color and Contrast
 
-Ensure sufficient color contrast and don't rely solely on color to convey information.
+Ensure sufficient color contrast and don't rely solely on color to convey
+information.
 
 #### Example: Form Validation
 
 ❌ **Poor Practice**:
+
 ```html
 <style>
-  .error { color: red; }
+  .error {
+    color: red;
+  }
 </style>
 <div>
   <label for="email">Email:</label>
-  <input type="email" id="email">
+  <input type="email" id="email" />
   <span class="error">Invalid email format</span>
 </div>
 ```
 
 ✅ **Good Practice**:
+
 ```html
 <style>
   .error {
-    color: #D50000; /* High contrast red */
+    color: #d50000; /* High contrast red */
     font-weight: bold;
   }
   .error::before {
@@ -229,7 +262,7 @@ Ensure sufficient color contrast and don't rely solely on color to convey inform
 </style>
 <div>
   <label for="email">Email:</label>
-  <input type="email" id="email" aria-describedby="email-error">
+  <input type="email" id="email" aria-describedby="email-error" />
   <span id="email-error" class="error" role="alert">Invalid email format</span>
 </div>
 ```
@@ -255,15 +288,17 @@ Ensure sufficient color contrast and don't rely solely on color to convey inform
 ## Resources for Learning More
 
 - WebAIM: https://webaim.org/
-- MDN Web Docs Accessibility Guide: https://developer.mozilla.org/en-US/docs/Web/Accessibility
+- MDN Web Docs Accessibility Guide:
+  https://developer.mozilla.org/en-US/docs/Web/Accessibility
 - W3C Web Accessibility Initiative: https://www.w3.org/WAI/
-
 
 # HTML Typography Guide for Students
 
 ## Introduction to Web Typography
 
-Typography is the art and technique of arranging type to make written language legible, readable, and appealing. On the web, good typography enhances user experience, increases readability, and reinforces brand identity.
+Typography is the art and technique of arranging type to make written language
+legible, readable, and appealing. On the web, good typography enhances user
+experience, increases readability, and reinforces brand identity.
 
 ## Why Typography Matters in Web Design
 
@@ -284,7 +319,10 @@ HTML provides several elements specifically designed for text content.
 ```html
 <h1>This is a main heading</h1>
 <h2>This is a subheading</h2>
-<p>This is a paragraph of text with <strong>bold text</strong> and <em>italic text</em>.</p>
+<p>
+  This is a paragraph of text with <strong>bold text</strong> and <em>italic
+    text</em>.
+</p>
 <blockquote>This is a blockquote for featured text or citations.</blockquote>
 <pre>This text preserves whitespace and formatting.</pre>
 <code>This is for displaying code snippets.</code>
@@ -298,7 +336,7 @@ CSS offers extensive control over how text appears on your webpage.
 
 ```css
 body {
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
@@ -306,7 +344,7 @@ body {
 }
 
 h1 {
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: "Montserrat", Helvetica, sans-serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 1.2;
@@ -322,7 +360,10 @@ Web fonts allow designers to use fonts beyond the standard system fonts.
 
 ```html
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Montserrat:wght@700&display=swap"
+    rel="stylesheet"
+  />
 </head>
 ```
 
@@ -330,16 +371,17 @@ Web fonts allow designers to use fonts beyond the standard system fonts.
 
 ```css
 @font-face {
-  font-family: 'CustomFont';
-  src: url('fonts/customfont.woff2') format('woff2'),
-       url('fonts/customfont.woff') format('woff');
+  font-family: "CustomFont";
+  src:
+    url("fonts/customfont.woff2") format("woff2"),
+    url("fonts/customfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 body {
-  font-family: 'CustomFont', sans-serif;
+  font-family: "CustomFont", sans-serif;
 }
 ```
 
@@ -365,7 +407,8 @@ CSS provides properties to control text alignment, spacing, and indentation.
 
 ### 5. Responsive Typography
 
-Typography that adjusts based on screen size improves readability across devices.
+Typography that adjusts based on screen size improves readability across
+devices.
 
 #### Example: Responsive Font Sizes
 
@@ -402,10 +445,10 @@ Creating a clear hierarchy helps users scan and understand content.
 <article>
   <h1 class="article-title">Main Article Title</h1>
   <p class="article-meta">Posted on May 15, 2025 by Author Name</p>
-  
+
   <h2 class="section-heading">First Major Section</h2>
   <p>Introduction paragraph to the section...</p>
-  
+
   <h3 class="subsection-heading">Subsection Title</h3>
   <p>Details about this specific topic...</p>
 </article>
@@ -424,3 +467,172 @@ Creating a clear hierarchy helps users scan and understand content.
   color: #666;
   font-style: italic;
   margin-bottom:
+```
+
+# JavaScript Fundamentals Guide for Students
+
+## Introduction to JavaScript
+
+JavaScript is a programming language that adds interactivity to web pages. It
+allows you to create dynamic content, control multimedia, animate images, and
+much more.
+
+## JavaScript Data Types
+
+JavaScript has several built-in data types:
+
+### Primitive Data Types
+
+- **String**: Text data
+  ```javascript
+  let name = "Alice";
+  let message = "Hello World";
+  ```
+
+- **Number**: Numeric data (both integers and decimals)
+  ```javascript
+  let age = 25;
+  let price = 99.99;
+  ```
+
+- **Boolean**: True or false values
+  ```javascript
+  let isActive = true;
+  let isComplete = false;
+  ```
+
+- **Null**: Represents the intentional absence of any object value
+  ```javascript
+  let emptyValue = null;
+  ```
+
+- **Undefined**: Represents a variable that has been declared but not assigned a
+  value
+  ```javascript
+  let notAssigned;
+  ```
+
+### Complex Data Types
+
+- **Object**: Collection of key-value pairs
+  ```javascript
+  let person = {
+    name: "Alice",
+    age: 25,
+    isStudent: true,
+    isAdult: null,
+    isAnimal: undefined,
+  };
+
+  console.log(person['name']) => "Alice";
+  ```
+
+- **Array**: Ordered list of values
+  ```javascript
+  let colors = ["red", "green", "blue", "orange", 23, true, null, undefined];
+  let numbers = [1, 2, 3, 4, 5];
+
+  console.log(colors[0]) => 'red';
+  ```
+
+## Variables in JavaScript
+
+Variables are containers for storing data values. JavaScript has three ways to
+declare variables:
+
+### var (Function-scoped)
+
+```javascript
+var name = "Alice";
+```
+
+### let (Block-scoped)
+
+```javascript
+let age = 25;
+```
+
+### const (Block-scoped, cannot be reassigned)
+
+```javascript
+const PI = 3.14159;
+```
+
+## Functions in JavaScript
+
+Functions are blocks of code designed to perform a particular task.
+
+### Function Declaration
+
+```javascript
+**creation**
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+```
+
+### Function Expression
+
+```javascript
+const greet = function (name) {
+  return "Hello, " + name + "!";
+};
+```
+
+### Arrow Function (ES6+)
+
+```javascript
+const greet = (name) => {
+  return "Hello, " + name + "!";
+};
+```
+
+## JavaScript Events
+
+Events are actions or occurrences that happen in the browser that you can
+respond to.
+
+### Common Events
+
+- **Click Event**
+  ```javascript
+  button.addEventListener("click", function () {
+    console.log("Button was clicked!");
+  });
+  ```
+
+- **Mouse Events**
+  ```javascript
+  element.addEventListener("mouseover", function () {
+    console.log("Mouse is over the element");
+  });
+  ```
+
+- **Keyboard Events**
+  ```javascript
+  document.addEventListener("keydown", function (event) {
+    console.log("Key pressed: " + event.key);
+  });
+  ```
+
+- **Form Events**
+  ```javascript
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    console.log("Form submitted");
+  });
+  ```
+
+### Event Handling Best Practices
+
+1. Use `addEventListener` instead of inline event handlers
+2. Consider event delegation for multiple elements
+3. Use `preventDefault()` when needed
+4. Clean up event listeners when they're no longer needed
+
+## Resources for Learning More
+
+- MDN JavaScript Guide:
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
+- JavaScript.info: https://javascript.info/
+- Eloquent JavaScript: https://eloquentjavascript.net/
