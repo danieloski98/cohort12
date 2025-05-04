@@ -6,3 +6,14 @@ const btn = document.getElementById("btn");
 btn.addEventListener("click", () => {
     alert('This form has been submitted!!!!');
 });
+
+let name = "Daniel";
+
+function greet() {
+     name = "Joel";
+    console.log(name);
+}
+
+greet();
+console.log(__dirname)
+console.log(__filename);
