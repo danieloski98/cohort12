@@ -636,3 +636,95 @@ respond to.
   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
 - JavaScript.info: https://javascript.info/
 - Eloquent JavaScript: https://eloquentjavascript.net/
+
+## JavaScript Arrays
+
+Arrays are a fundamental part of JavaScript and are used to store multiple
+values in a single variable. They are list-like objects and come with a variety
+of methods to perform operations on the stored data.
+
+### Common Array Methods
+
+- **Push Method**
+  - The `push()` method adds one or more elements to the end of an array and
+    returns the new length of the array.
+  ```javascript
+  let fruits = ["apple", "banana"];
+  fruits.push("orange");
+  fruits.push("mango");
+  console.log(fruits); // Output: ["apple", "banana", "orange", "mango"]
+  // to add in front of the array
+  fruits.unshift("pear");
+  console.log(fruits); // Output: ["pear", "apple", "banana", "orange", "mango"]
+  ```
+
+- **Pop Method**
+  - The `pop()` method removes the last element from an array and returns that
+    element. This method changes the length of the array.
+  ```javascript
+  let fruits = ["apple", "banana", "orange"];
+  let lastFruit = fruits.pop();
+  console.log(lastFruit); // Output: "orange"
+  console.log(fruits); // Output: ["apple", "banana"]
+  ```
+
+- **Map Method**
+  - The `map()` method creates a new array populated with the results of calling
+    a provided function on every element in the calling array.
+  ```javascript
+  let numbers = [1, 2, 3, 4];
+  let doubled = numbers.map(function (number) {
+    return number * 2;
+  });
+  console.log(doubled); // Output: [2, 4, 6, 8]
+  ```
+
+- **Filter Method**
+  - The `filter()` method creates a new array with all elements that pass the
+    test implemented by the provided function.
+  ```javascript
+  let numbers = [1, 2, 3, 4, 5];
+  let arrayOfPersons = [
+    {
+      name: "john",
+      passsed: true,
+    },
+    {
+      name: "emmanuel",
+      passed: false,
+    },
+  ];
+
+  let passedUsers = arrayOfPersons.filter(function (item) {
+    if (item?.passed) {
+      return item;
+    }
+  });
+
+  console.log(passedUsers); // output: [  { name: "emmanuel", passed: false }]
+
+  let evenNumbers = numbers.filter(function (number) {
+    return number % 2 === 0;
+  });
+  console.log(evenNumbers); // Output: [2, 4]
+  ```
+
+- **Reduce Method**
+  - The `reduce()` method executes a reducer function (that you provide) on each
+    element of the array, resulting in a single output value.
+  ```javascript
+  let numbers = [1, 2, 3, 4];
+  let sum = numbers.reduce(function (accumulator, currentValue) {
+    return accumulator + currentValue;
+  }, 0);
+  console.log(sum); // Output: 10
+  ```
+
+### Best Practices for Using Arrays
+
+1. Use array methods to write clean and concise code.
+2. Be mindful of the mutability of arrays when using methods like `push()` and
+   `pop()`.
+3. Use `map()`, `filter()`, and `reduce()` for functional programming patterns.
+4. Always consider the performance implications of array operations on large
+   datasets.
