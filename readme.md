@@ -728,3 +728,91 @@ of methods to perform operations on the stored data.
 3. Use `map()`, `filter()`, and `reduce()` for functional programming patterns.
 4. Always consider the performance implications of array operations on large
    datasets.
+
+## Function Calling, Closures, and Callbacks in JavaScript
+
+### Function Calling
+
+Calling a function means executing the code inside it. You call a function by
+using its name followed by parentheses, optionally passing arguments.
+
+```javascript
+function sayHello(name) {
+  console.log("Hello, " + name + "!");
+}
+
+sayHello("Alice"); // Output: Hello, Alice!
+```
+
+You can also call functions that return values and use those values:
+
+```javascript
+function add(a, b) {
+  return a + b;
+}
+
+let sum = add(3, 5); // sum is 8
+```
+
+### Closures
+
+A closure is a function that remembers the variables from the place where it was
+created, even after that place has finished executing. Closures are useful for
+data privacy and creating functions with persistent state.
+
+#### Example: Closure
+
+```javascript
+function makeCounter() {
+  let count = 0;
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+let counter = makeCounter();
+console.log(counter()); // Output: 1
+console.log(counter()); // Output: 2
+```
+
+In this example, the inner function remembers the `count` variable even after
+`makeCounter` has finished running.
+
+### Callbacks
+
+A callback is a function passed as an argument to another function, to be called
+later. Callbacks are commonly used for asynchronous operations, event handling,
+and array methods.
+
+#### Example: Callback in Array Method
+
+```javascript
+let numbers = [1, 2, 3, 4];
+
+numbers.forEach(function (number) {
+  console.log(number * 2);
+});
+// Output: 2, 4, 6, 8
+```
+
+#### Example: Callback in Asynchronous Code
+
+```javascript
+function fetchData(callback) {
+  setTimeout(function () {
+    callback("Data loaded!");
+  }, 1000);
+}
+
+fetchData(function (message) {
+  console.log(message); // Output after 1 second: Data loaded!
+});
+```
+
+### Best Practices
+
+1. Use closures to create private variables and encapsulate logic.
+2. Use callbacks for asynchronous operations, but consider Promises or
+   async/await for more complex flows.
+3. Always check that a callback is a function before calling it to avoid errors.
