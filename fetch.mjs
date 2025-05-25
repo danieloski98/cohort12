@@ -8,13 +8,13 @@ function calculateAge(age) {
     });
 }
 
-async function callMe() {
-    // calculateAge(90)
-    // .then((data) => console.log(data))
-    // .catch((error) => {
-    //     console.log("THIS IS FROM THE ERROR BLOCK");
-    //     console.log(error);
-    // })
+export async function callMe() {
+    calculateAge(90)
+    .then((data) => console.log(data))
+    .catch((error) => {
+        console.log("THIS IS FROM THE ERROR BLOCK");
+        console.log(error);
+    })
 
 
     try {
@@ -43,3 +43,4 @@ async function promise() {
     }
 }
 
+export const name = "Daniel";
