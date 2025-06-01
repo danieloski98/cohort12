@@ -915,3 +915,99 @@ console.log(subtract(5, 3)); // Output: 2
 1. Use Fetch API for making HTTP requests in modern JavaScript applications.
 2. Use Promises and Async/Await for handling asynchronous operations.
 3. Use modules to organize and share code across your application.
+
+## React Lifecycle Methods, Props, and Events in Functional Components
+
+### Lifecycle Methods in Functional Components
+
+In React, functional components do not have lifecycle methods like class
+components. Instead, you can use the `useEffect` hook to perform side effects in
+functional components.
+
+#### Example: Using `useEffect`
+
+```javascript
+import React, { useEffect, useState } from "react";
+
+function ExampleComponent() {
+  const [data, setData] = useState(null);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    // This code runs after the component mounts
+    fetch("https://api.example.com/data", {
+      params: {
+        page: page,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+
+    // This code runs when the component unmounts
+    return () => {
+      console.log("Component unmounted");
+    };
+  }, [page]); // Empty dependency array means this effect runs once on mount
+
+  const handleClick = () => {
+    setPage(page + 1);
+  };
+
+  return (
+    <div>
+      {data ? <p>Data: {JSON.stringify(data)}</p> : <p>Loading...</p>}
+      <button onClick={handleClick}>Go to Next Page</button>
+    </div>
+  );
+}
+```
+
+### Props in Functional Components
+
+Props are used to pass data from parent to child components. In functional
+components, props are received as an argument.
+
+#### Example: Using Props
+
+```javascript
+import React from "react";
+
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+
+function App() {
+  return <Greeting name="Alice" />;
+}
+```
+
+### Events in Functional Components
+
+You can handle events in functional components using event handlers.
+
+#### Example: Handling Events
+
+```javascript
+import React, { useState } from "react";
+
+function Button() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <button onClick={handleClick}>
+      Clicked {count} times
+    </button>
+  );
+}
+```
+
+### Best Practices
+
+1. Use `useEffect` for side effects in functional components.
+2. Pass props to child components to share data.
+3. Use event handlers to manage user interactions.
