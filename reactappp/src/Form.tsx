@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import useDetails from "./hooks/useDetails";
+import React from "react";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -13,13 +16,20 @@ const validationSchema = Yup.object({
 
 
 function FormComponent() {
+    const details = useDetails();
+    console.log(details);
     const intialValues = {
         email: '',
         password: '',
     };
 
+    React.useEffect(() => {
+        console.log(details);
+    }, [details])
+
     const handleSubmit = (values: { email: string, password: string }, { setSubmitting }: Record<string, any>) => {
         console.log("Form values:", values);
+        details?.change({ name: values.email, age: values.password })
         setSubmitting(false);
     };
 
