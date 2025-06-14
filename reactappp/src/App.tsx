@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Button from './components/button'
+import Form from './Form';
 
 function App() {
   const [data, setData] = useState(null);
@@ -39,9 +40,10 @@ function App() {
 
   return (
     <div>
-      {!isLoading ? <p>Data: {JSON.stringify(data)}</p> : <p>Loading...</p>}
+      {/* {!isLoading ? <p>Data: {JSON.stringify(data)}</p> : <p>Loading...</p>}
       <Button title="Go to Next Page" onClick={handleClick} />
-      <Button title="Go to Next Page" onClick={() => handleClickWithValue(10)} />
+      <Button title="Go to Next Page" onClick={() => handleClickWithValue(10)} /> */}
+      <Form />
     </div>
   );
 }

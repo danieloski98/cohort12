@@ -1011,3 +1011,752 @@ function Button() {
 1. Use `useEffect` for side effects in functional components.
 2. Pass props to child components to share data.
 3. Use event handlers to manage user interactions.
+
+## Form Management with Formik and Yup
+
+Formik and Yup are powerful libraries for handling forms in React applications.
+Formik helps with form state management, while Yup provides schema-based
+validation.
+
+### Setting Up Formik and Yup
+
+First, install the required packages:
+
+```bash
+npm install formik yup
+```
+
+### Basic Form with Formik
+
+Here's a simple example of a form using Formik:
+
+```javascript
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
+
+// Validation schema using Yup
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+});
+
+function LoginForm() {
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log("Form values:", values);
+    setSubmitting(false);
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <Field type="email" name="email" />
+            <ErrorMessage name="email" component="div" className="error" />
+          </div>
+
+          <div>
+            <label htmlFor="password">Password:</label>
+            <Field type="password" name="password" />
+            <ErrorMessage name="password" component="div" className="error" />
+          </div>
+
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
+}
+```
+
+### Advanced Form Validation with Yup
+
+Yup provides a rich set of validation rules. Here's an example of a more complex
+form:
+
+```javascript
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object({
+  firstName: Yup.string()
+    .required("First name is required")
+    .min(2, "First name must be at least 2 characters"),
+  lastName: Yup.string()
+    .required("Last name is required")
+    .min(2, "Last name must be at least 2 characters"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  age: Yup.number()
+    .required("Age is required")
+    .min(18, "Must be at least 18 years old")
+    .max(100, "Age must be less than 100"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+      "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+    ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm password is required"),
+});
+
+function RegistrationForm() {
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    age: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    console.log("Form values:", values);
+    // Handle form submission
+    setSubmitting(false);
+    resetForm();
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting, errors, touched }) => (
+        <Form>
+          <div>
+            <label htmlFor="firstName">First Name:</label>
+            <Field
+              type="text"
+              name="firstName"
+              className={errors.firstName && touched.firstName ? "error" : ""}
+            />
+            <ErrorMessage name="firstName" component="div" className="error" />
+          </div>
+
+          <div>
+            <label htmlFor="lastName">Last Name:</label>
+            <Field
+              type="text"
+              name="lastName"
+              className={errors.lastName && touched.lastName ? "error" : ""}
+            />
+            <ErrorMessage name="lastName" component="div" className="error" />
+          </div>
+
+          <div>
+            <label htmlFor="email">Email:</label>
+            <Field
+              type="email"
+              name="email"
+              className={errors.email && touched.email ? "error" : ""}
+            />
+            <ErrorMessage name="email" component="div" className="error" />
+          </div>
+
+          <div>
+            <label htmlFor="age">Age:</label>
+            <Field
+              type="number"
+              name="age"
+              className={errors.age && touched.age ? "error" : ""}
+            />
+            <ErrorMessage name="age" component="div" className="error" />
+          </div>
+
+          <div>
+            <label htmlFor="password">Password:</label>
+            <Field
+              type="password"
+              name="password"
+              className={errors.password && touched.password ? "error" : ""}
+            />
+            <ErrorMessage name="password" component="div" className="error" />
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <Field
+              type="password"
+              name="confirmPassword"
+              className={errors.confirmPassword && touched.confirmPassword
+                ? "error"
+                : ""}
+            />
+            <ErrorMessage
+              name="confirmPassword"
+              component="div"
+              className="error"
+            />
+          </div>
+
+          <button type="submit" disabled={isSubmitting}>
+            Register
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
+}
+```
+
+### Best Practices for Form Management
+
+1. **Form Organization**
+   - Break complex forms into smaller components
+   - Use consistent naming conventions
+   - Group related fields together
+
+2. **Validation**
+   - Validate on blur and change for better UX
+   - Show validation errors only after field interaction
+   - Use custom validation messages
+
+3. **Performance**
+   - Use `useFormikContext` for nested form components
+   - Implement debouncing for expensive validations
+   - Memoize form components when necessary
+
+4. **Error Handling**
+   - Provide clear error messages
+   - Show server-side validation errors
+   - Handle network errors gracefully
+
+5. **Accessibility**
+   - Use proper ARIA attributes
+   - Ensure keyboard navigation works
+   - Provide clear error announcements
+
+### Common Yup Validation Rules
+
+```javascript
+const schema = Yup.object({
+  // String validations
+  name: Yup.string()
+    .required("Required")
+    .min(2, "Too short")
+    .max(50, "Too long"),
+
+  // Number validations
+  age: Yup.number()
+    .required("Required")
+    .positive("Must be positive")
+    .integer("Must be an integer"),
+
+  // Date validations
+  birthDate: Yup.date()
+    .required("Required")
+    .max(new Date(), "Cannot be in the future"),
+
+  // Array validations
+  tags: Yup.array()
+    .of(Yup.string())
+    .min(1, "At least one tag required"),
+
+  // Object validations
+  address: Yup.object({
+    street: Yup.string().required("Required"),
+    city: Yup.string().required("Required"),
+    zipCode: Yup.string().matches(/^\d{5}$/, "Invalid zip code"),
+  }),
+
+  // Conditional validations
+  password: Yup.string().when("isSignUp", {
+    is: true,
+    then: Yup.string().required("Required"),
+  }),
+});
+```
+
+## React Context API
+
+The Context API provides a way to pass data through the component tree without
+having to pass props manually at every level.
+
+### Creating and Using Context
+
+```javascript
+// UserContext.js
+import React, { createContext, useContext, useState } from "react";
+
+const UserContext = createContext();
+
+export function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+
+  const login = (userData) => {
+    setUser(userData);
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
+
+  return (
+    <UserContext.Provider value={{ user, login, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
+}
+
+export function useUser() {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
+}
+
+// App.js
+function App() {
+  return (
+    <UserProvider>
+      <Navigation />
+      <MainContent />
+    </UserProvider>
+  );
+}
+
+// Navigation.js
+function Navigation() {
+  const { user, logout } = useUser();
+
+  return (
+    <nav>
+      {user
+        ? (
+          <>
+            <span>Welcome, {user.name}</span>
+            <button onClick={logout}>Logout</button>
+          </>
+        )
+        : <span>Please log in</span>}
+    </nav>
+  );
+}
+```
+
+### Best Practices for Context API
+
+1. **Split Contexts by Domain**
+   ```javascript
+   // Separate contexts for different concerns
+   const ThemeContext = createContext();
+   const AuthContext = createContext();
+   const SettingsContext = createContext();
+   ```
+
+2. **Use Custom Hooks**
+   ```javascript
+   function useTheme() {
+     const context = useContext(ThemeContext);
+     if (!context) {
+       throw new Error("useTheme must be used within a ThemeProvider");
+     }
+     return context;
+   }
+   ```
+
+3. **Memoize Context Values**
+   ```javascript
+   function ThemeProvider({ children }) {
+     const [theme, setTheme] = useState("light");
+
+     const value = useMemo(() => ({
+       theme,
+       setTheme,
+     }), [theme]);
+
+     return (
+       <ThemeContext.Provider value={value}>
+         {children}
+       </ThemeContext.Provider>
+     );
+   }
+   ```
+
+## Code Splitting and Lazy Loading
+
+Code splitting and lazy loading help improve the initial load time of your React
+application by splitting the code into smaller chunks that are loaded on demand.
+
+### Using React.lazy and Suspense
+
+```javascript
+import React, { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+
+// Lazy load components
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Suspense>
+  );
+}
+```
+
+### Lazy Loading with Preloading
+
+```javascript
+import React, { lazy, Suspense } from "react";
+
+const LazyComponent = lazy(() => import("./LazyComponent"));
+
+function App() {
+  const [showComponent, setShowComponent] = useState(false);
+
+  // Preload the component
+  useEffect(() => {
+    const preloadComponent = async () => {
+      await import("./LazyComponent");
+    };
+    preloadComponent();
+  }, []);
+
+  return (
+    <div>
+      <button onClick={() => setShowComponent(true)}>
+        Load Component
+      </button>
+      {showComponent && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <LazyComponent />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+```
+
+## Firebase Integration in React
+
+Firebase provides a suite of tools for building web applications. Here's how to
+integrate Firebase with React.
+
+### Setting Up Firebase
+
+```javascript
+// firebase.js
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+```
+
+### Firebase Authentication
+
+```javascript
+// AuthContext.js
+import React, { createContext, useContext, useEffect, useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { auth } from "./firebase";
+
+const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const signup = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const login = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const logout = () => {
+    return signOut(auth);
+  };
+
+  const value = {
+    user,
+    signup,
+    login,
+    logout,
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
+
+// LoginForm.js
+function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setError("");
+      await login(email, password);
+    } catch (error) {
+      setError("Failed to sign in: " + error.message);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {error && <div className="error">{error}</div>}
+      <div>
+        <label>Email:</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+```
+
+### Firebase Firestore Integration
+
+```javascript
+// FirestoreExample.js
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "./firebase";
+
+function FirestoreExample() {
+  const [todos, setTodos] = useState([]);
+
+  // Add a new document
+  const addTodo = async (title) => {
+    try {
+      const docRef = await addDoc(collection(db, "todos"), {
+        title,
+        completed: false,
+        createdAt: new Date(),
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  };
+
+  // Get documents
+  const getTodos = async () => {
+    try {
+      const q = query(
+        collection(db, "todos"),
+        where("completed", "==", false),
+      );
+      const querySnapshot = await getDocs(q);
+      const todoList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTodos(todoList);
+    } catch (error) {
+      console.error("Error getting documents: ", error);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={() => addTodo("New Todo")}>Add Todo</button>
+      <button onClick={getTodos}>Get Todos</button>
+      <ul>
+        {todos.map((todo) => <li key={todo.id}>{todo.title}</li>)}
+      </ul>
+    </div>
+  );
+}
+```
+
+### Best Practices for Firebase Integration
+
+1. **Environment Variables**
+   - Store Firebase configuration in environment variables
+   - Never commit sensitive keys to version control
+
+2. **Error Handling**
+   - Implement proper error handling for all Firebase operations
+   - Show user-friendly error messages
+
+3. **Security Rules**
+   - Set up proper security rules in Firebase Console
+   - Validate data on both client and server side
+
+4. **Performance**
+   - Use pagination for large collections
+   - Implement proper indexing
+   - Cache frequently accessed data
+
+5. **Authentication**
+   - Implement proper authentication state management
+   - Handle authentication errors gracefully
+   - Implement proper session management
+
+## React Lifecycle Methods, Props, and Events in Functional Components
+
+### Lifecycle Methods in Functional Components
+
+In React, functional components do not have lifecycle methods like class
+components. Instead, you can use the `useEffect` hook to perform side effects in
+functional components.
+
+#### Example: Using `useEffect`
+
+```javascript
+import React, { useEffect, useState } from "react";
+
+function ExampleComponent() {
+  const [data, setData] = useState(null);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    // This code runs after the component mounts
+    fetch("https://api.example.com/data", {
+      params: {
+        page: page,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+
+    // This code runs when the component unmounts
+    return () => {
+      console.log("Component unmounted");
+    };
+  }, [page]); // Empty dependency array means this effect runs once on mount
+
+  const handleClick = () => {
+    setPage(page + 1);
+  };
+
+  return (
+    <div>
+      {data ? <p>Data: {JSON.stringify(data)}</p> : <p>Loading...</p>}
+      <button onClick={handleClick}>Go to Next Page</button>
+    </div>
+  );
+}
+```
+
+### Props in Functional Components
+
+Props are used to pass data from parent to child components. In functional
+components, props are received as an argument.
+
+#### Example: Using Props
+
+```javascript
+import React from "react";
+
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+
+function App() {
+  return <Greeting name="Alice" />;
+}
+```
+
+### Events in Functional Components
+
+You can handle events in functional components using event handlers.
+
+#### Example: Handling Events
+
+```javascript
+import React, { useState } from "react";
+
+function Button() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <button onClick={handleClick}>
+      Clicked {count} times
+    </button>
+  );
+}
+```
+
+### Best Practices
+
+1. Use `useEffect` for side effects in functional components.
+2. Pass props to child components to share data.
+3. Use event handlers to manage user interactions.
