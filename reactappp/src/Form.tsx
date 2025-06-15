@@ -3,6 +3,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import useDetails from "./hooks/useDetails";
 import React from "react";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from "./utils/firebase";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -27,10 +29,16 @@ function FormComponent() {
         console.log(details);
     }, [details])
 
-    const handleSubmit = (values: { email: string, password: string }, { setSubmitting }: Record<string, any>) => {
-        console.log("Form values:", values);
-        details?.change({ name: values.email, age: values.password })
-        setSubmitting(false);
+    const handleSubmit = async (values: { email: string, password: string }, { setSubmitting }: Record<string, any>) => {
+        try {
+            setSubmitting(true);
+            const response = await signInWithEmailAndPassword(auth, values.email, values.password);
+
+            console.log(response);
+            setSubmitting(false);
+        } catch (error: any) {
+            alert(error?.message || JSON.stringify(error))
+        }
     };
 
 
